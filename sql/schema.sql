@@ -68,6 +68,6 @@ CREATE INDEX IF NOT EXISTS TokenIdx ON Tokens(CreatorId);
 CREATE INDEX IF NOT EXISTS UsageLogs_TokenIdx ON UsageLogs(TokenId);
 CREATE INDEX IF NOT EXISTS UsageLogs_IpIdx ON UsageLogs(CallerIP);
 CREATE INDEX IF NOT EXISTS UserLogs_UserIdx ON UserLogs(UserId);
-CREATEgo get github.com/oklog/ulid INDEX IF NOT EXISTS UserLogs_ActionIdx ON UserLogs(ActionType);
+CREATE INDEX IF NOT EXISTS UserLogs_ActionIdx ON UserLogs(ActionType);
 CREATE INDEX IF NOT EXISTS TokenLogs_UserIdx ON TokenLogs(UserId);
 CREATE INDEX IF NOT EXISTS TokenLogs_TokenIdx ON TokenLogs(ActionType);
