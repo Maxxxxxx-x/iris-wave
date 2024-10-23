@@ -3,7 +3,7 @@ CREATE TYPE UserActions AS ENUM ("create-account", "get-accounts", "login-accoun
 CREATE TYPE TokenActions AS ENUM("create-token", "revoke-token")
 
 CREATE TABLE IF NOT EXISTS Users(
-    Id CHAR(16) PRIMARY KEY,
+    Id CHAR(26) PRIMARY KEY,
     Email TEXT UNIQUE NOT NULL,
     Password TEXT NOT NULL,
     Role Roles NOT NULL,
@@ -12,16 +12,15 @@ CREATE TABLE IF NOT EXISTS Users(
 );
 
 CREATE TABLE IF NOT EXISTS KeyPairs(
-    Id UUID PRIMARY KEY,
+    Id CHAR(26) PRIMARY KEY,
     PublicKey BYTEA NOT NULL,
-    PrivateKey BYTEA NOT NULL,
     CreatedAt BIGINT
 );
 
 CREATE TABLE IF NOT EXISTS Tokens(
-    Id UUID PRIMARY KEY,
-    CreatorId CHAR(16) NOT NULL,
-    KeyId UUID NOT NULL,
+    Id CHAR(26) PRIMARY KEY,
+    CreatorId CHAR(26) NOT NULL,
+    KeyId CHAR(26) NOT NULL,
     Name CHAR(20) NOT NULL,
     ExpiresAt BIGINT,
     IsRevoked BOOLEAN DEFAULT FALSE,
@@ -32,8 +31,8 @@ CREATE TABLE IF NOT EXISTS Tokens(
 );
 
 CREATE TABLE IF NOT EXISTS UsageLogs(
-    Id UUID  PRIMARY KEY,
-    TokenId UUID NOT NULL,
+    Id CHAR(26)  PRIMARY KEY,
+    TokenId CHAR(26) NOT NULL,
     CallerIP CIDR NOT NULL,
     Subject TEXT NOT NULL,
     From TEXT NOT NULL,
@@ -44,8 +43,8 @@ CREATE TABLE IF NOT EXISTS UsageLogs(
 );
 
 CREATE TABLE IF NOT EXISTS UserLogs(
-    Id UUID PRIMARY KEY,
-    UserId CHAR(16) NOT NULL,
+    Id CHAR(26) PRIMARY KEY,
+    UserId CHAR(26) NOT NULL,
     ActionType UserActions NOT NULL,
     IPAddress CIDR NOT NULL,
     UserAgent TEXT NOT NULL,
@@ -54,9 +53,9 @@ CREATE TABLE IF NOT EXISTS UserLogs(
 );
 
 CREATE TABLE IF NOT EXISTS TokenLogs(
-    Id UUID PRIMARY KEY,
-    UserId CHAR(16) NOT NULL,
-    TokenId UUID NOT NULL,
+    Id CHAR(26) PRIMARY KEY,
+    UserId CHAR(26) NOT NULL,
+    TokenId CHAR(26) NOT NULL,
     ActionType TokenActions NOT NULL,
     IPAddress CIDR NOT NULL,
     CreatedAt BIGINT,
@@ -69,6 +68,6 @@ CREATE INDEX IF NOT EXISTS TokenIdx ON Tokens(CreatorId);
 CREATE INDEX IF NOT EXISTS UsageLogs_TokenIdx ON UsageLogs(TokenId);
 CREATE INDEX IF NOT EXISTS UsageLogs_IpIdx ON UsageLogs(CallerIP);
 CREATE INDEX IF NOT EXISTS UserLogs_UserIdx ON UserLogs(UserId);
-CREATE INDEX IF NOT EXISTS UserLogs_ActionIdx ON UserLogs(ActionType);
+CREATEgo get github.com/oklog/ulid INDEX IF NOT EXISTS UserLogs_ActionIdx ON UserLogs(ActionType);
 CREATE INDEX IF NOT EXISTS TokenLogs_UserIdx ON TokenLogs(UserId);
 CREATE INDEX IF NOT EXISTS TokenLogs_TokenIdx ON TokenLogs(ActionType);
