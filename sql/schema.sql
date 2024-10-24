@@ -12,6 +12,13 @@ CREATE TABLE IF NOT EXISTS Users (
     UpdatedAt TIMESTAMPTZ
 );
 
+CREATE INDEX IF NOT EXISTS Users_Email ON Users (
+    Email
+);
+
+CREATE INDEX IF NOT EXISTS Users_Role ON Users (
+    Role
+);
 
 CREATE TABLE IF NOT EXISTS KeyPairs (
     Id UUID PRIMARY KEY,
@@ -35,6 +42,38 @@ CREATE TABLE IF NOT EXISTS Tokens (
 );
 
 
+CREATE INDEX IF NOT EXISTS Tokens_CreatorId ON Tokens (
+    CreatorId
+);
+
+CREATE INDEX IF NOT EXISTS Tokens_KeyId ON Tokens (
+    KeyId
+);
+
+CREATE INDEX IF NOT EXISTS Tokens_ExpiresAt ON Tokens (
+    ExpiresAt
+);
+
+CREATE INDEX IF NOT EXISTS Tokens_IsRevoked ON Tokens (
+    IsRevoked
+);
+
+CREATE INDEX IF NOT EXISTS Tokens_CreatorId ON Tokens (
+    CreatorId
+);
+
+CREATE INDEX IF NOT EXISTS Tokens_KeyId ON Tokens (
+    KeyId
+);
+
+CREATE INDEX IF NOT EXISTS Tokens_ExpiresAt ON Tokens (
+    ExpiresAt
+);
+
+CREATE INDEX IF NOT EXISTS Tokens_IsRevoked ON Tokens (
+    IsRevoked
+);
+
 CREATE TABLE IF NOT EXISTS UsageLogs (
     Id UUID PRIMARY KEY,
     TokenId UUID NOT NULL,
@@ -47,14 +86,35 @@ CREATE TABLE IF NOT EXISTS UsageLogs (
     FOREIGN KEY (TokenId) REFERENCES Tokens(Id)
 );
 
+
+CREATE INDEX IF NOT EXISTS UsageLogs_TokenId ON UsageLogs (
+    TokenId
+);
+
+CREATE INDEX IF NOT EXISTS UsageLogs_CallerIP ON UsageLogs (
+    CallerIP
+);
+
 CREATE TABLE IF NOT EXISTS UserLogs (
     Id UUID PRIMARY KEY,
     UserId UUID NOT NULL,
     ActionType UserActions NOT NULL,
-    IPAddress CIDR NOT NULL,
+    IPAddr CIDR NOT NULL,
     UserAgent TEXT NOT NULL,
     CreatedAt TIMESTAMPTZ NOT NULL,
     FOREIGN KEY (UserId) REFERENCES Users(Id)
+);
+
+CREATE INDEX IF NOT EXISTS UserLogs_UserId ON UserLogs (
+    UserId
+);
+
+CREATE INDEX IF NOT EXISTS UserLogs_ActionType ON UserLogs (
+    ActionType
+);
+
+CREATE INDEX IF NOT EXISTS UserLogs_IPAddr ON UserLogs (
+    IPAddr
 );
 
 CREATE TABLE IF NOT EXISTS TokenLogs (
@@ -62,8 +122,24 @@ CREATE TABLE IF NOT EXISTS TokenLogs (
     UserId UUID NOT NULL,
     TokenId UUID NOT NULL,
     ActionType TokenActions NOT NULL,
-    IPAddress CIDR NOT NULL,
+    IPAddr CIDR NOT NULL,
     CreatedAt TIMESTAMPTZ NOT NULL,
     FOREIGN KEY (UserId) REFERENCES Users(Id),
     FOREIGN KEY (TokenId) REFERENCES Tokens(Id)
+);
+
+CREATE INDEX IF NOT EXISTS TokenLogs_UserId ON TokenLogs (
+    UserId
+);
+
+CREATE INDEX IF NOT EXISTS TokenLogs_TokenId ON TokenLogs (
+    TokenId
+);
+
+CREATE INDEX IF NOT EXISTS TokenLogs_ActionType ON TokenLogs (
+    ActionType
+);
+
+CREATE INDEX IF NOT EXISTS TokenLogs_IPAddr ON TokenLogs (
+    IPAddr
 );
