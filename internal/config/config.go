@@ -19,10 +19,12 @@ type DatabaseConfig struct {
 }
 
 type LoggingConfig struct {
-	LogPath    string `yaml:"LogPath"`
-	LogLevel   string `yaml:"LogLevel"`
-	MaxSize    int    `yaml:"MaxSize"`
-	MaxBackups int    `yaml:"MaxBackups"`
+	LogPath      string `yaml:"LogPath"`
+	LogLevel     string `yaml:"LogLevel"`
+	CompressLogs bool   `yaml:"CompressLogs"`
+	MaxAge       int    `yaml:"MaxAge"`
+	MaxSize      int    `yaml:"MaxSize"`
+	MaxBackups   int    `yaml:"MaxBackups"`
 }
 
 type Config struct {
@@ -34,7 +36,7 @@ type Config struct {
 
 func loadDefaultLoggingConfig() LoggingConfig {
 	return LoggingConfig{
-		LogPath:    "./logs",
+		LogPath:    "./logs/iris.log",
 		LogLevel:   "DEBUG",
 		MaxSize:    50,
 		MaxBackups: 10,
