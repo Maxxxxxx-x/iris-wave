@@ -106,6 +106,8 @@ func New(cfg *config.LoggingConfig, env string) Logger {
 	if cfg.LogPath != "" {
 		logger.writers = append(logger.writers, &lumberjack.Logger{
 			Filename:   cfg.LogPath,
+			MaxAge:     cfg.MaxAge,
+			Compress:   cfg.CompressLogs,
 			MaxSize:    cfg.MaxSize,
 			MaxBackups: cfg.MaxBackups,
 		})
