@@ -13,6 +13,7 @@ tidy:
 clean:
 	if [ -d /tmp/bin/${bin_name} ]; then rm -rf /tmp/bin/${bin_name}; fi
 	if [ -d ./tmp/ ]; then rm -rf ./tmp; fi
+	if [ -d ./logs/ ]; then rm -rf ./logs; fi
 
 
 .PHONY: build/prod
