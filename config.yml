@@ -1,0 +1,13 @@
+REST:
+  host: 127.0.0.1   # Default: 127.0.0.1
+  port: "12345"     # Default: "12345"
+
+Database:
+  host: iris-db     # Default: iris-db
+  port: "5432"      # Default: "5432"
+
+Logging:
+  LogPath: ./logs # Log file paths; Default: "./logs"
+  LogLevel: TRACE # Log Level; Default "DEBUG"
+  MaxSize: 50       # Maximum size of log files (MB); Default: 50
+  MaxBackups: 10    # Maximum amounts of backups; Default 10
